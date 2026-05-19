@@ -1,4 +1,4 @@
-# My api specification TODO
+# My api specification
 
 openapi 3.1.0
 info:
@@ -29,6 +29,10 @@ paths:
               type: object
               required: [title]
               properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Optional client-generated UUID (offline capabilities)
                 title:
                   type: string
                   maxLength: 280
@@ -59,8 +63,7 @@ paths:
                 title:
                   type: string
                 status:
-                  type: string
-                  enum: [todo, done]
+                  $ref: '#/components/schemas/Status'
       responses:
         '200':
           description: Task updated
@@ -72,8 +75,13 @@ paths:
 
   components:
   schemas:
+    Status:
+      type: string
+      enum: [todo, done]
+      default: todo
     Task:
       type: object
+      required: [id, title, status, created_at, updated_at]
       properties:
         id:
           type: string
@@ -81,5 +89,14 @@ paths:
         title:
           type: string
         status:
+          $ref: '#/components/schemas/Status'
+        created_at:
           type: string
-          enum: [todo, done]
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
