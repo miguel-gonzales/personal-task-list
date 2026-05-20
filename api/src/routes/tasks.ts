@@ -75,4 +75,26 @@ router.patch('/:id', async (req, res) => {
   res.json(updatedTask)
 })
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  
+  const existingTask = await prisma.task.findFirst({
+    where: { id, deleted_at: null }
+  });
+
+  if (!existingTask) {
+    res.status(404).json({error: 'Task not found'});
+    return;
+  }
+
+  await prisma.task.update({
+    where: { id },
+    data: {
+      deleted_at: new Date()
+    }
+  });
+  
+  res.status(204).send();
+})
+
 export default router;
