@@ -19,6 +19,8 @@ dist/
 
 # SQLite database
 /api/dev.db
+/api/test.db
+/api/test.db-journal
 /prisma/dev.db
 /prisma/dev.db-journal
 
