@@ -16,3 +16,10 @@ I love the CLI idea although if we are aiming to be able to combine this feature
 Based on a quick internet research, suggest what is the most trending combination to reduce this gaps and define better the scope of the product.
 
 3. Based on the discussion with gaps, improvements and feedback, create a project report in md format to be downloaded and save as context documentation to continue working from the last item solved.
+
+
+## Updated project report with latest changes
+
+1. Cursor, based on the Taskminator_Project_Report.md verify alignment with the latest state of the project. Use git diff to see the changes from the last update on sha b8d8006 where the report was committed up to the latest commit where the tests where created, sha 7da9eaf.
+After verification list the gaps and improvement opportunities, based on that create a new report with the current status of the project. Include a table with the available endpoints, the pnpm scripts being used, gaps to be solved in the next implementation and next steps to move forward with the project.
+The main goal is to have a document in md format that I can use as guidance to move forward with the project, easy to read and understand by human or AI agent.
