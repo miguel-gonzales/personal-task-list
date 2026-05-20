@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  const { id } = req.params as UpdateTaskBody;
+  const { id } = req.params;
   const { title, status } = req.body as UpdateTaskBody;
   const existingTask = await prisma.task.findFirst({
     where: { id, deleted_at: null }
@@ -54,7 +54,7 @@ router.patch('/:id', async (req, res) => {
     return;
   } 
 
-  if ( status !== undefined && ['todo', 'done'].includes(status) ) {
+  if (status !== undefined && !['todo', 'done'].includes(status)) {
     res.status(400).json({ error: 'Status must be either "todo" or "done"' });
     return;
   }
