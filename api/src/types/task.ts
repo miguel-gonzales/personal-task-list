@@ -4,6 +4,7 @@ export interface CreateTaskBody {
 }
 
 export interface UpdateTaskBody {
+  id: string;
   title?: string;
   status?: 'todo' | 'done';
 }

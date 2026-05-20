@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import prisma from '../db.js';
 import {v4 as uuidv4 } from 'uuid';
-import type { CreateTaskBody } from '../types/task.js'
+import type { CreateTaskBody, UpdateTaskBody } from '../types/task.js'
 
 const router = Router();
 
@@ -36,5 +36,43 @@ router.post('/', async (req, res) => {
 
   res.status(201).json(task)
 });
+
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params as UpdateTaskBody;
+  const { title, status } = req.body as UpdateTaskBody;
+  const existingTask = await prisma.task.findFirst({
+    where: { id, deleted_at: null }
+  });
+
+  if (!title && !status) {
+    res.status(400).json({ error: 'At least one field must be provided'});
+    return;
+  }
+
+  if ( title !== undefined && title.trim() === '' ) {
+    res.status(400).json({ error: 'Title cannot be empty' });
+    return;
+  } 
+
+  if ( status !== undefined && ['todo', 'done'].includes(status) ) {
+    res.status(400).json({ error: 'Status must be either "todo" or "done"' });
+    return;
+  }
+
+  if (!existingTask) {
+    res.status(404).json({ error: 'Task not found' });
+    return;
+  }
+
+  const updatedTask = await prisma.task.update({
+    where: { id },
+    data: { 
+      ...(title && { title:title.trim() }), 
+      ...(status && { status }) 
+    }
+  });
+
+  res.json(updatedTask)
+})
 
 export default router;
